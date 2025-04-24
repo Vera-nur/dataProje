@@ -4,6 +4,8 @@
  */
 package dataproject;
 
+import javax.swing.*;
+
 /**
  *
  * @author osman
@@ -15,6 +17,8 @@ public class frm_menu extends javax.swing.JFrame {
      */
     public frm_menu() {
         initComponents();
+        
+        
     }
 
     /**
@@ -71,7 +75,11 @@ public class frm_menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new frm_game().setVisible(true);
+        String username = JOptionPane.showInputDialog(this, "Kullanıcı Adı:");
+        if (username == null || username.trim().isEmpty()) 
+            return;
+        
+        new frm_game(username, 1).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
