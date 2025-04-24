@@ -9,9 +9,11 @@ import javax.swing.*;
  */
 public class Node {
     public int index;
-    public String type; // "Empty", "Treasure", "Trap"
+    public String type;
     public Node next;
-    public JButton button; // Bu hücreye karşılık gelen Swing butonu
+    public JButton button;
+    public static ImageIcon iconTreasure= new ImageIcon("assets/treasure.png");
+    public static ImageIcon iconTrap = new ImageIcon("assets/trap.png");
 
     public Node(int index, String type) {
         this.index = index;
@@ -19,6 +21,12 @@ public class Node {
         this.next = null;
         this.button = new JButton(String.valueOf(index + 1));
         this.button.setSize(80, 80);
+        //burada her node oluşturulduğunda imageler çalışıyor her seferinde çalışmasına gerek yok buraya bi çözüm bul 
+        Image img1 = iconTreasure.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        iconTreasure = new ImageIcon(img1);
+
+        Image img2 = iconTrap.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        iconTrap = new ImageIcon(img2);
         updateButton();
     }
     
@@ -26,26 +34,35 @@ public class Node {
         String label;
         if (index == 0) {
             label = "START";
+            button.setText(label);
+            button.setIcon(null);
+            return;
         } else if (index == 31) {
             label = "FINISH";
+            button.setText(label);
+            return;
         }else{
-            label=String.valueOf(index +1);
+            label=String.valueOf(index );
         }
         switch (type) {
             case "treasure":
-                button.setToolTipText("💰 Hazine! ");
-                button.setBackground(new java.awt.Color(255, 255, 153)); // sarı
-                button.setText(label + " 💰");
+                button.setBackground(new java.awt.Color(255, 255, 153));
+                button.setText(label);
+                button.setIcon(iconTreasure);
+                button.setHorizontalTextPosition(SwingConstants.CENTER);
+                button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 break;
             case "trap":
-                button.setToolTipText("☠️ Tuzak!");
-                button.setBackground(new java.awt.Color(255, 153, 153)); // kırmızımsı
-                 button.setText(label + "☠️");
+                button.setBackground(new java.awt.Color(255, 153, 153));
+                button.setText(label);
+                button.setIcon(iconTrap);
+                button.setHorizontalTextPosition(SwingConstants.CENTER);
+                button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 break;
             case "empty":
-                button.setToolTipText("Boş alan");
-                button.setBackground(new java.awt.Color(204, 229, 255)); // mavi
-                 button.setText(label);
+                button.setBackground(new java.awt.Color(204, 229, 255));
+                button.setText(label);
+                button.setIcon(null);
                 break;
         }
     }

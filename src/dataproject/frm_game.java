@@ -5,7 +5,12 @@
 package dataproject;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -23,12 +28,14 @@ public class frm_game extends javax.swing.JFrame {
     final int cellCount = 32;
     Node currentPlayer;
     int score = 0;
+    public static ImageIcon iconPlayer= new ImageIcon("assets/player.png");
     public frm_game(String username, int level) {
         initComponents();
         this.username = username;
         this.level = level;
         labelUsername.setText("Kullanıcı Ad: " + username + "  Level: " +level);
         randomCreateLinkedList(jPanel1);
+        
     }
     
     private void randomCreateLinkedList(JPanel panel) {
@@ -79,12 +86,34 @@ public class frm_game extends javax.swing.JFrame {
     }
     private void showCurrentPlayer(Node node){
         node.button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-        node.button.setBackground(Color.GREEN); //buraya ikon ekleyelim bence hoş olabilir. 
+        Image img1 = iconPlayer.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        iconPlayer = new ImageIcon(img1);
+        node.button.setText(null);
+        node.button.setIcon(iconPlayer); //buraya ikon ekleyelim bence hoş olabilir. 
     }
     
     private void dontShowCurrentPlayer(Node node){
         if (node != null) {
         node.updateButton();
+        }
+    }
+    private void endGame(){
+        try {
+            FileWriter write=new FileWriter("score.txt", true);
+            write.write(username +" , level "+ level +", " + score + "\n");
+            write.close();
+        } catch (IOException ex) {
+            Logger.getLogger(frm_game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        int option= JOptionPane.showConfirmDialog(this, "Congratulations \nYour Score: " + score + "\n Would you like to continue to the next level?", "Game Over", JOptionPane.YES_NO_OPTION);
+        if (option==JOptionPane.YES_NO_OPTION && level==1) {
+            this.dispose();
+            new frm_game(username, 2).setVisible(true);
+            //ikinci kısım için nasıl yapacağımızı düşünüp ona göre burası revize edilmeli
+        }else{
+            this.dispose();
+            new frm_menu().setVisible(true);
         }
     }
 
@@ -198,7 +227,7 @@ public class frm_game extends javax.swing.JFrame {
         showCurrentPlayer(currentPlayer);
         updateScore(currentPlayer.type);
         if (currentPlayer.next==null) {
-            ///burada oyunu bitirmek için fonk yazmamız lazım 
+           endGame();
         }
         
     }//GEN-LAST:event_diceActionPerformed
