@@ -8,6 +8,7 @@ package dataproject;
  *
  * @author veranur
  */
-public class Node {
+public class Node <T>{
+    T node;
     
 }
