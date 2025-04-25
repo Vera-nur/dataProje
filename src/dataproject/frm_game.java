@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package dataproject;
 
 import java.awt.Color;
@@ -152,7 +148,7 @@ public class frm_game extends javax.swing.JFrame {
     private void endGame(){
         try {
             FileWriter write=new FileWriter("score.txt", true);
-            write.write(username +" , level "+ level +", " + score + "\n");
+            write.write(username +", level "+ level +", " + score + "\n");
             write.close();
         } catch (IOException ex) {
             Logger.getLogger(frm_game.class.getName()).log(Level.SEVERE, null, ex);

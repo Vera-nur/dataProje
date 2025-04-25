@@ -12,6 +12,7 @@ public class frm_score extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmScore
+     * @param username
      */
     public frm_score() {
         initComponents();

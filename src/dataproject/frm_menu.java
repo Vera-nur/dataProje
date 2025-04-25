@@ -4,6 +4,9 @@
  */
 package dataproject;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.*;
 
 /**
@@ -16,9 +19,7 @@ public class frm_menu extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public frm_menu() {
-        initComponents();
-        
-        
+        initComponents();        
     }
 
     /**
@@ -31,7 +32,7 @@ public class frm_menu extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        button_scoreboard = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,10 +43,10 @@ public class frm_menu extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Scoreboard");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        button_scoreboard.setText("Scoreboard");
+        button_scoreboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                button_scoreboardActionPerformed(evt);
             }
         });
 
@@ -57,7 +58,7 @@ public class frm_menu extends javax.swing.JFrame {
                 .addGap(86, 86, 86)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(button_scoreboard, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(134, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -65,7 +66,7 @@ public class frm_menu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(132, 132, 132)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                    .addComponent(button_scoreboard, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(145, Short.MAX_VALUE))
         );
@@ -75,7 +76,7 @@ public class frm_menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String username = JOptionPane.showInputDialog(this, "Kullanıcı Adı:");
+        String username = JOptionPane.showInputDialog(this, "Sign in with a username to play:");
         if (username == null || username.trim().isEmpty()) 
             return;
         
@@ -83,11 +84,34 @@ public class frm_menu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        new frm_score().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void button_scoreboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_scoreboardActionPerformed
+        String username = JOptionPane.showInputDialog(this, "To check the scores, enter your username first:");
+        if (username == null || username.trim().isEmpty()) 
+            return;
+        
+        boolean user_found = false;
+        
+        try (BufferedReader br = new BufferedReader(new FileReader("score.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if(line.startsWith(username + ",")) {
+                    user_found = true;
+                    break;              // Satırı alıp virgülün sonuna kadar okuyor bi kere bulması yeterli döngüyü durduruyorum.
+                }
+            }        
+            
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading the score file!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (user_found){
+            new frm_score().setVisible(true);
+            this.dispose();
+        } else{
+            JOptionPane.showMessageDialog(this, "No score found for this user: " + username, "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_button_scoreboardActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,7 +152,7 @@ public class frm_menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton button_scoreboard;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     // End of variables declaration//GEN-END:variables
 }
