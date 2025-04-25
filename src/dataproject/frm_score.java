@@ -28,6 +28,10 @@ public class frm_score extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        username_label = new javax.swing.JLabel();
+        all_score_label = new javax.swing.JLabel();
+        best_score_label = new javax.swing.JLabel();
+        worst_score_label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,19 +42,44 @@ public class frm_score extends javax.swing.JFrame {
             }
         });
 
+        username_label.setText("Username");
+
+        all_score_label.setText("All the scores");
+
+        best_score_label.setText("Best score");
+
+        worst_score_label.setText("Worst score");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(572, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(all_score_label)
+                            .addComponent(username_label)
+                            .addComponent(best_score_label)
+                            .addComponent(worst_score_label))))
+                .addContainerGap(508, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(321, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
+                .addComponent(username_label)
+                .addGap(18, 18, 18)
+                .addComponent(all_score_label)
+                .addGap(18, 18, 18)
+                .addComponent(best_score_label, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(worst_score_label)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -102,6 +131,10 @@ public class frm_score extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel all_score_label;
+    private javax.swing.JLabel best_score_label;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel username_label;
+    private javax.swing.JLabel worst_score_label;
     // End of variables declaration//GEN-END:variables
 }
