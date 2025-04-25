@@ -11,23 +11,32 @@ public class Node {
     public int index;
     public String type;
     public Node next;
+    public Node prev;
     public JButton button;
-    public static ImageIcon iconTreasure= new ImageIcon("assets/treasure.png");
-    public static ImageIcon iconTrap = new ImageIcon("assets/trap.png");
+    private static ImageIcon iconTreasure;
+    private static ImageIcon iconTrap;
+    static {
+        loadIcons();
+    }
 
     public Node(int index, String type) {
         this.index = index;
         this.type = type;
         this.next = null;
+        this.prev = null;
         this.button = new JButton(String.valueOf(index + 1));
         this.button.setSize(80, 80);
-        //burada her node oluşturulduğunda imageler çalışıyor her seferinde çalışmasına gerek yok buraya bi çözüm bul 
-        Image img1 = iconTreasure.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        iconTreasure = new ImageIcon(img1);
-
-        Image img2 = iconTrap.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        iconTrap = new ImageIcon(img2);
         updateButton();
+    }
+    private static void loadIcons(){
+        if(iconTreasure==null || iconTrap==null){
+            iconTreasure=new ImageIcon("assets/treasure.png");
+            iconTrap=new ImageIcon("assets/trap.png");
+            Image img1 = iconTreasure.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+            iconTreasure = new ImageIcon(img1);
+            Image img2 = iconTrap.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+            iconTrap = new ImageIcon(img2);
+        }
     }
     
     public void updateButton() {
@@ -42,7 +51,7 @@ public class Node {
             button.setText(label);
             return;
         }else{
-            label=String.valueOf(index );
+            label=String.valueOf(index);
         }
         switch (type) {
             case "treasure":
@@ -64,6 +73,16 @@ public class Node {
                 button.setText(label);
                 button.setIcon(null);
                 break;
+            case "forward":
+                button.setBackground(new java.awt.Color(204, 255, 204));
+                button.setText(label);//ikon ekle
+                button.setIcon(null);
+                break;
+            case "backward":
+                button.setBackground(new java.awt.Color(255, 204, 229));
+                button.setText(label);
+                button.setIcon(null);//ikon ekle
+                break;    
         }
     }
 }

@@ -47,9 +47,14 @@ public class frm_game extends javax.swing.JFrame {
         Node current = head;
         for (int i = 1; i < cellCount; i++) {
             Node newNode = new Node(i, randomType(random));
-            current.next = newNode;
-            current = newNode;
-
+            if (level==1) {
+                current.next = newNode;
+                current = newNode;
+            }else if (level==2) {
+                current.next = newNode;
+                newNode.prev=current;
+                current = newNode;
+            }
             panel.add(current.button);
             setPosition(current.button, i);
         }
@@ -57,11 +62,31 @@ public class frm_game extends javax.swing.JFrame {
         showCurrentPlayer(currentPlayer);
     }
     
-    private String randomType(Random rand) {
-        int r = rand.nextInt(100);
-        if (r < 40) return "treasure";    
-        else if (r < 65) return "trap";    
-        else return "empty";               
+    private String randomType(Random random) {
+
+        if (level == 1) {
+            int r = random.nextInt(100);
+            if (r < 40) {
+                return "treasure";
+            } else if (r < 65) {
+                return "trap";
+            } else {
+                return "empty";
+            }
+        } else {
+            int r = random.nextInt(100);
+            if (r < 40) {
+                return "treasure";
+            } else if (r < 60) {
+                return "trap";
+            } else if (r < 70) {
+                return "forward";
+            } else if (r < 85) {
+                return "backward";
+            }else {
+                return "empty";
+            }
+        }
     }
     //buraya şey de yapabiliriz 1'den 3e kadar random sayı tutarız sonra her seferinde farklı sayı geleceği için 
     // 1 2 3 e göre hazine tuzak veya boş olarak döndürebiliriz?? 
@@ -74,6 +99,7 @@ public class frm_game extends javax.swing.JFrame {
     //bu fonksiyon butonların boyutuna göre aralarında 10 şey bırakıp yan yana dizmek için ve max 10 tane diziyor bi sıraya baştan da 60 boşluk bırakıyor
     
     private void updateScore(String type){
+        Random random = new  Random();
         switch (type) {
         case "treasure":
             score += 10;
@@ -81,15 +107,41 @@ public class frm_game extends javax.swing.JFrame {
         case "trap":
             score -= 5;
             break;
+        case "forward":
+            int step = random.nextInt(6)+1;
+            movePlayer(step);
+            break;
+        case "backward":
+            int backstep = random.nextInt(6)+1;
+            movePlayer(-backstep);
+            break;    
         }
         labelScore.setText("Skor: " + score);
+        showCurrentPlayer(currentPlayer);
+    }
+    private void movePlayer(int step){
+        dontShowCurrentPlayer(currentPlayer);
+        if (step>0) {
+            int count = step;
+            while (count > 0 && currentPlayer.next != null) {                
+                currentPlayer=currentPlayer.next;
+                count--;
+            }  
+        }else{
+            int count = -step;
+            while (count > 0 && currentPlayer.prev != null) {                
+                currentPlayer=currentPlayer.prev;
+                count--;
+            }
+        }
+        
     }
     private void showCurrentPlayer(Node node){
-        node.button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+//        node.button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         Image img1 = iconPlayer.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         iconPlayer = new ImageIcon(img1);
         node.button.setText(null);
-        node.button.setIcon(iconPlayer); //buraya ikon ekleyelim bence hoş olabilir. 
+        node.button.setIcon(iconPlayer);
     }
     
     private void dontShowCurrentPlayer(Node node){
@@ -215,7 +267,7 @@ public class frm_game extends javax.swing.JFrame {
        int rolls=random.nextInt(6)+1;
        JOptionPane.showMessageDialog(this, "Zar sonucu: "+rolls);
        
-        dontShowCurrentPlayer(currentPlayer);
+       dontShowCurrentPlayer(currentPlayer);
        
         for (int i = 0; i < rolls; i++) {
             if (currentPlayer.next!= null) {

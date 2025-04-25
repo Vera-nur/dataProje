@@ -1,1 +1,5 @@
 osman , level 1, 5
+null , level 0, 55
+Vera , level 1, 15
+verya , level 1, 70
+null , level 0, 0
