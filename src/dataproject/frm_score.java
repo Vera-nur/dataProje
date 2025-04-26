@@ -1,8 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package dataproject;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -14,8 +12,12 @@ public class frm_score extends javax.swing.JFrame {
      * Creates new form FrmScore
      * @param username
      */
-    public frm_score() {
+    public frm_score(String username, TreeNode BestScore, TreeNode WorstScore, ArrayList AllScores) {
         initComponents();
+        
+        username_label.setText("Username:" + username);
+        best_score_label.setText("Best score:" + BestScore.score + " (Level" + BestScore.level + ")");
+        worst_score_label.setText("Worst score:" + WorstScore.score + " (Level" + WorstScore.level + ")");
     }
 
     /**
@@ -125,7 +127,8 @@ public class frm_score extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frm_score().setVisible(true);
+                new frm_score(null, null, null, null).setVisible(true);
+                        
             }
         });
     }

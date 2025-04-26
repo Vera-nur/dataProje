@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package dataproject;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -90,27 +87,35 @@ public class frm_menu extends javax.swing.JFrame {
             return;
         
         boolean user_found = false;
+        BinarySearchTree bst = new BinarySearchTree();
         
         try (BufferedReader br = new BufferedReader(new FileReader("score.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if(line.startsWith(username + ",")) {
+                String[] parts = line.split(", ");
+                if(parts.length >= 3 && parts[0].equals(username)) {
                     user_found = true;
-                    break;              // Satırı alıp virgülün sonuna kadar okuyor bi kere bulması yeterli döngüyü durduruyorum.
+                    int level = Integer.parseInt(parts[1].replaceAll("\\D+", ""));
+                    int score = Integer.parseInt(parts[2]);
+                    bst.insert(username, level, score);
                 }
             }        
-            
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error reading the score file!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        if (user_found){
-            new frm_score().setVisible(true);
-            this.dispose();
-        } else{
-            JOptionPane.showMessageDialog(this, "No score found for this user: " + username, "Warning", JOptionPane.WARNING_MESSAGE);
+
+        if (!user_found){
+            JOptionPane.showMessageDialog(this, "No score found for this user: " + username, "Warning", JOptionPane.WARNING_MESSAGE);  
         }
+        
+        TreeNode BestScore = bst.getBestScore();
+        TreeNode WorstScore = bst.getWorstScore();
+        ArrayList<TreeNode> AllScores = bst.getAllScores();
+        
+        new frm_score(username, BestScore, WorstScore, AllScores).setVisible(true);
+        this.dispose();
+        
     }//GEN-LAST:event_button_scoreboardActionPerformed
 
     /**
