@@ -32,14 +32,14 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="all_score_label" min="-2" max="-2" attributes="0"/>
                           <Component id="username_label" min="-2" max="-2" attributes="0"/>
                           <Component id="best_score_label" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="worst_score_label" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="all_scores_label" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="508" max="32767" attributes="0"/>
+              <EmptySpace pref="504" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -49,7 +49,7 @@
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
               <Component id="username_label" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="all_score_label" min="-2" max="-2" attributes="0"/>
+              <Component id="all_scores_label" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="best_score_label" min="-2" pref="17" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -72,22 +72,22 @@
     </Component>
     <Component class="javax.swing.JLabel" name="username_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Username"/>
+        <Property name="text" type="java.lang.String" value="Username:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="all_score_label">
+    <Component class="javax.swing.JLabel" name="all_scores_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="All the scores"/>
+        <Property name="text" type="java.lang.String" value="All the scores:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="best_score_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Best score"/>
+        <Property name="text" type="java.lang.String" value="Best score:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="worst_score_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Worst score"/>
+        <Property name="text" type="java.lang.String" value="Worst score:"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -10,14 +10,26 @@ public class frm_score extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmScore
+     *
      * @param username
      */
     public frm_score(String username, TreeNode BestScore, TreeNode WorstScore, ArrayList AllScores) {
         initComponents();
+
+        username_label.setText("Username: " + username);
+        best_score_label.setText(String.format("Best Score: %d (Level %d)", BestScore.score, BestScore.level));
+        worst_score_label.setText(String.format("Worst Score: %d (Level %d)", WorstScore.score, WorstScore.level));
+        StringBuilder text = new StringBuilder("All scores: ");
+
+        for (Object Score : AllScores) {
+            TreeNode node = (TreeNode) Score;
+            text.append(node.score).append(" (Level").append(node.level).append("), ");
+        }
         
-        username_label.setText("Username:" + username);
-        best_score_label.setText("Best score:" + BestScore.score + " (Level" + BestScore.level + ")");
-        worst_score_label.setText("Worst score:" + WorstScore.score + " (Level" + WorstScore.level + ")");
+        if (text.length() > 0) {
+            text.setLength(text.length() - 2);
+        }
+        all_scores_label.setText(text.toString());
     }
 
     /**
@@ -31,7 +43,7 @@ public class frm_score extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         username_label = new javax.swing.JLabel();
-        all_score_label = new javax.swing.JLabel();
+        all_scores_label = new javax.swing.JLabel();
         best_score_label = new javax.swing.JLabel();
         worst_score_label = new javax.swing.JLabel();
 
@@ -44,13 +56,13 @@ public class frm_score extends javax.swing.JFrame {
             }
         });
 
-        username_label.setText("Username");
+        username_label.setText("Username:");
 
-        all_score_label.setText("All the scores");
+        all_scores_label.setText("All the scores:");
 
-        best_score_label.setText("Best score");
+        best_score_label.setText("Best score:");
 
-        worst_score_label.setText("Worst score");
+        worst_score_label.setText("Worst score:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,11 +76,11 @@ public class frm_score extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(63, 63, 63)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(all_score_label)
                             .addComponent(username_label)
                             .addComponent(best_score_label)
-                            .addComponent(worst_score_label))))
-                .addContainerGap(508, Short.MAX_VALUE))
+                            .addComponent(worst_score_label)
+                            .addComponent(all_scores_label))))
+                .addContainerGap(504, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -76,7 +88,7 @@ public class frm_score extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addComponent(username_label)
                 .addGap(18, 18, 18)
-                .addComponent(all_score_label)
+                .addComponent(all_scores_label)
                 .addGap(18, 18, 18)
                 .addComponent(best_score_label, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -128,13 +140,13 @@ public class frm_score extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new frm_score(null, null, null, null).setVisible(true);
-                        
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel all_score_label;
+    private javax.swing.JLabel all_scores_label;
     private javax.swing.JLabel best_score_label;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel username_label;
