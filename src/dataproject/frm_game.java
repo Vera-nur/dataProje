@@ -24,31 +24,37 @@ public class frm_game extends javax.swing.JFrame {
     final int cellCount = 32;
     Node currentPlayer;
     int score = 0;
-    public static ImageIcon iconPlayer= new ImageIcon("assets/player.png");
+    public static ImageIcon iconPlayer = new ImageIcon("assets/player.png");
+
     public frm_game(String username, int level) {
         initComponents();
         this.username = username;
         this.level = level;
-        labelUsername.setText("Kullanıcı Ad: " + username + "  Level: " +level);
+        labelUsername.setText("Kullanıcı Ad: " + username + "  Level: " + level);
         randomCreateLinkedList(jPanel1);
-        
+
     }
-    
+
     private void randomCreateLinkedList(JPanel panel) {
         Random random = new Random();
-        head = new Node(0, randomType(random));
+        head = new Node(0, "empty");
         panel.add(head.button);
         setPosition(head.button, 0);
 
         Node current = head;
         for (int i = 1; i < cellCount; i++) {
-            Node newNode = new Node(i, randomType(random));
-            if (level==1) {
+            Node newNode;
+            if (i == cellCount - 1) {
+                newNode = new Node(i, "empty");
+            }else{
+                newNode = new Node(i, randomType(random));   
+            }
+            if (level == 1) {
                 current.next = newNode;
                 current = newNode;
-            }else if (level==2) {
+            } else if (level == 2) {
                 current.next = newNode;
-                newNode.prev=current;
+                newNode.prev = current;
                 current = newNode;
             }
             panel.add(current.button);
@@ -57,7 +63,7 @@ public class frm_game extends javax.swing.JFrame {
         currentPlayer = head;
         showCurrentPlayer(currentPlayer);
     }
-    
+
     private String randomType(Random random) {
 
         if (level == 1) {
@@ -79,7 +85,7 @@ public class frm_game extends javax.swing.JFrame {
                 return "forward";
             } else if (r < 85) {
                 return "backward";
-            }else {
+            } else {
                 return "empty";
             }
         }
@@ -93,73 +99,80 @@ public class frm_game extends javax.swing.JFrame {
         btn.setLocation(x, y);
     }
     //bu fonksiyon butonların boyutuna göre aralarında 10 şey bırakıp yan yana dizmek için ve max 10 tane diziyor bi sıraya baştan da 60 boşluk bırakıyor
-    
-    private void updateScore(String type){
-        Random random = new  Random();
+
+    private void updateScore(String type) {
         switch (type) {
-        case "treasure":
-            score += 10;
-            break;
-        case "trap":
-            score -= 5;
-            break;
-        case "forward":
-            int step = random.nextInt(6)+1;
-            movePlayer(step);
-            break;
-        case "backward":
-            int backstep = random.nextInt(6)+1;
-            movePlayer(-backstep);
-            break;    
+            case "treasure":
+                score += 10;
+                break;
+            case "trap":
+                score -= 5;
+                break;
+            case "forward":
+                movePlayer(currentPlayer.moveStep);
+                break;
+            case "backward":
+                movePlayer(-currentPlayer.moveStep);
+                break;
+            case "empty":
+                break;
         }
         labelScore.setText("Skor: " + score);
         showCurrentPlayer(currentPlayer);
     }
-    private void movePlayer(int step){
+
+    private void movePlayer(int step) {
         dontShowCurrentPlayer(currentPlayer);
-        if (step>0) {
+        if (step > 0) {
             int count = step;
-            while (count > 0 && currentPlayer.next != null) {                
-                currentPlayer=currentPlayer.next;
+            while (count > 0 && currentPlayer.next != null) {
+                currentPlayer = currentPlayer.next;
                 count--;
-            }  
-        }else{
+            }
+        } else {
             int count = -step;
-            while (count > 0 && currentPlayer.prev != null) {                
-                currentPlayer=currentPlayer.prev;
+            while (count > 0 && currentPlayer.prev != null) {
+                currentPlayer = currentPlayer.prev;
                 count--;
             }
         }
-        
+
     }
-    private void showCurrentPlayer(Node node){
+
+    private void showCurrentPlayer(Node node) {
 //        node.button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         Image img1 = iconPlayer.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         iconPlayer = new ImageIcon(img1);
         node.button.setText(null);
         node.button.setIcon(iconPlayer);
     }
-    
-    private void dontShowCurrentPlayer(Node node){
+
+    private void dontShowCurrentPlayer(Node node) {
         if (node != null) {
-        node.updateButton();
+            node.updateButton();
         }
     }
-    private void endGame(){
+
+    private void endGame() {
         try {
-            FileWriter write=new FileWriter("score.txt", true);
-            write.write(username +", level "+ level +", " + score + "\n");
+            FileWriter write = new FileWriter("score.txt", true);
+            write.write(username + ", level " + level + ", " + score + "\n");
             write.close();
         } catch (IOException ex) {
             Logger.getLogger(frm_game.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        int option= JOptionPane.showConfirmDialog(this, "Congratulations \nYour Score: " + score + "\n Would you like to continue to the next level?", "Game Over", JOptionPane.YES_NO_OPTION);
-        if (option==JOptionPane.YES_NO_OPTION && level==1) {
-            this.dispose();
-            new frm_game(username, 2).setVisible(true);
-            //ikinci kısım için nasıl yapacağımızı düşünüp ona göre burası revize edilmeli
-        }else{
+
+        if (level==1) {
+            int option = JOptionPane.showConfirmDialog(this, "Congratulations \nYour Score: " + score + "\n Would you like to continue to the next level?", "Game Over", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_NO_OPTION && level == 1) {
+                this.dispose();
+                new frm_game(username, 2).setVisible(true);
+            } else {
+                this.dispose();
+                new frm_menu().setVisible(true);
+            }
+        }else if (level==2) {
+            JOptionPane.showMessageDialog(this, " 🎉 Congratulations! \nYou've completed the game! \nYour Final Score: " + score , "\n Game Completed", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
             new frm_menu().setVisible(true);
         }
@@ -259,25 +272,25 @@ public class frm_game extends javax.swing.JFrame {
     }//GEN-LAST:event_backActionPerformed
 
     private void diceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diceActionPerformed
-       Random random = new Random();
-       int rolls=random.nextInt(6)+1;
-       JOptionPane.showMessageDialog(this, "Zar sonucu: "+rolls);
-       
-       dontShowCurrentPlayer(currentPlayer);
-       
+        Random random = new Random();
+        int rolls = random.nextInt(6) + 1;
+        JOptionPane.showMessageDialog(this, "Zar sonucu: " + rolls);
+
+        dontShowCurrentPlayer(currentPlayer);
+
         for (int i = 0; i < rolls; i++) {
-            if (currentPlayer.next!= null) {
-                currentPlayer=currentPlayer.next;
-            }else{
+            if (currentPlayer.next != null) {
+                currentPlayer = currentPlayer.next;
+            } else {
                 break;
             }
         }
         showCurrentPlayer(currentPlayer);
         updateScore(currentPlayer.type);
-        if (currentPlayer.next==null) {
-           endGame();
+        if (currentPlayer.next == null) {
+            endGame();
         }
-        
+
     }//GEN-LAST:event_diceActionPerformed
 
     /**
@@ -311,7 +324,7 @@ public class frm_game extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frm_game(username,level).setVisible(true);
+                new frm_game(username, level).setVisible(true);
             }
         });
     }
