@@ -85,7 +85,8 @@ public class Node {
                 button.setIcon(null);
                 break;
             case "forward":
-                moveStep = random.nextInt(6)+1;
+                if (moveStep==0)
+                    moveStep = random.nextInt(6)+1;
                 button.setBackground(new java.awt.Color(204, 255, 204));
                 button.setText("<html><div style='text-align:center;'>" + moveStep + " ileri<br><b>" + label + "</b></div></html>");//ikon ekle
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -93,7 +94,8 @@ public class Node {
                 button.setIcon(iconForward);
                 break;
             case "backward":
-                moveStep = random.nextInt(6)+1;
+                if (moveStep==0)
+                    moveStep = random.nextInt(6)+1;
                 button.setBackground(new java.awt.Color(255, 204, 229));
                 button.setText("<html><div style='text-align:center;'> " + moveStep + " geri<br><b>" + label + "</b></div></html>");
                 button.setHorizontalTextPosition(SwingConstants.CENTER);

@@ -16,3 +16,15 @@ null, level 0, 55
 Vera, level 1, 15
 verya, level 1, 70
 null, level 0, 0
+vera, level 1, 40
+vera, level 2, 30
+vera, level 1, 20
+vera, level 2, 25
+vera, level 1, -5
+vera, level 2, 15
+vera, level 1, 30
+vera, level 2, 40
+vera, level 1, 45
+vera, level 2, 30
+vera, level 1, 5
+vera, level 2, 10

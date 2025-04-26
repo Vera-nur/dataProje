@@ -24,7 +24,11 @@ public class frm_game extends javax.swing.JFrame {
     final int cellCount = 32;
     Node currentPlayer;
     int score = 0;
-    public static ImageIcon iconPlayer = new ImageIcon("assets/player.png");
+    public static ImageIcon iconPlayer;
+    public static ImageIcon iconVictory;
+    static {
+        loadIcons();
+    }
 
     public frm_game(String username, int level) {
         initComponents();
@@ -33,6 +37,17 @@ public class frm_game extends javax.swing.JFrame {
         labelUsername.setText("Kullanıcı Ad: " + username + "  Level: " + level);
         randomCreateLinkedList(jPanel1);
 
+    }
+    
+    private static void loadIcons(){
+        if(iconPlayer==null || iconVictory==null){
+            iconPlayer=new ImageIcon("assets/player.png");
+            iconVictory=new ImageIcon("assets/victory.png");
+            Image img1 = iconPlayer.getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+            iconPlayer = new ImageIcon(img1);
+            Image img2 = iconVictory.getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+            iconVictory = new ImageIcon(img2);
+        }
     }
 
     private void randomCreateLinkedList(JPanel panel) {
@@ -46,8 +61,8 @@ public class frm_game extends javax.swing.JFrame {
             Node newNode;
             if (i == cellCount - 1) {
                 newNode = new Node(i, "empty");
-            }else{
-                newNode = new Node(i, randomType(random));   
+            } else {
+                newNode = new Node(i, randomType(random));
             }
             if (level == 1) {
                 current.next = newNode;
@@ -136,11 +151,11 @@ public class frm_game extends javax.swing.JFrame {
                 count--;
             }
         }
+        updateScore(currentPlayer.type);
 
     }
 
     private void showCurrentPlayer(Node node) {
-//        node.button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         Image img1 = iconPlayer.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         iconPlayer = new ImageIcon(img1);
         node.button.setText(null);
@@ -159,11 +174,14 @@ public class frm_game extends javax.swing.JFrame {
             write.write(username + ", level " + level + ", " + score + "\n");
             write.close();
         } catch (IOException ex) {
-            Logger.getLogger(frm_game.class.getName()).log(Level.SEVERE, null, ex);
+           JOptionPane.showMessageDialog(this,
+            "An error occurred while saving the score!\nPlease try again.",
+            "File Write Error",
+            JOptionPane.ERROR_MESSAGE);
         }
 
-        if (level==1) {
-            int option = JOptionPane.showConfirmDialog(this, "Congratulations \nYour Score: " + score + "\n Would you like to continue to the next level?", "Game Over", JOptionPane.YES_NO_OPTION);
+        if (level == 1) {
+            int option = JOptionPane.showConfirmDialog(this, "Congratulations \nYour Score: " + score + "\n Would you like to continue to the next level?", "Game Over", JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,iconVictory);
             if (option == JOptionPane.YES_NO_OPTION && level == 1) {
                 this.dispose();
                 new frm_game(username, 2).setVisible(true);
@@ -171,12 +189,36 @@ public class frm_game extends javax.swing.JFrame {
                 this.dispose();
                 new frm_menu().setVisible(true);
             }
-        }else if (level==2) {
-            JOptionPane.showMessageDialog(this, " 🎉 Congratulations! \nYou've completed the game! \nYour Final Score: " + score , "\n Game Completed", JOptionPane.INFORMATION_MESSAGE);
+        } else if (level == 2) {
+            JOptionPane.showMessageDialog(this, " 🎉 Congratulations! \nYou've completed the game! \nYour Final Score: " + score, "\n Game Completed", JOptionPane.PLAIN_MESSAGE,iconVictory);
             this.dispose();
             new frm_menu().setVisible(true);
         }
     }
+    private String getCellLabel(int index){
+        if(index==0)
+            return "START";
+        if(index==31)
+            return "FINISH";
+        return String.valueOf(index);
+    }
+    
+    private String getLabelMessage(int index,String type){
+        if(index==31)
+            return  "🏁 You have reached the FINISH!\n";
+        return "⛳️ Landed on: " + type.toUpperCase() + "\n";
+    }
+    
+    private String getScoreChange(int change){
+        if (change > 0) {
+            return "\n✨ You gained +" + change + " points!";
+        } else if (change < 0) {
+            return "\n💀 You lost " + (-change) + " points.";
+        } else {
+            return "\n➖ No points gained or lost.";
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -274,8 +316,9 @@ public class frm_game extends javax.swing.JFrame {
     private void diceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diceActionPerformed
         Random random = new Random();
         int rolls = random.nextInt(6) + 1;
-        JOptionPane.showMessageDialog(this, "Zar sonucu: " + rolls);
 
+        String message = "🎲 Dice Roll: " + rolls + "\n";
+        int startIndex = currentPlayer.index;
         dontShowCurrentPlayer(currentPlayer);
 
         for (int i = 0; i < rolls; i++) {
@@ -285,8 +328,35 @@ public class frm_game extends javax.swing.JFrame {
                 break;
             }
         }
+        String start=getCellLabel(startIndex);
+        String end=getCellLabel(currentPlayer.index);
+        message+= "📍 Moved From: " + start + " to " + end + "\n";
+        message+= getLabelMessage(currentPlayer.index, currentPlayer.type);
+        
+        int oldScore = score;
+        if (currentPlayer.type.equals("forward")) {
+            int step = currentPlayer.moveStep;
+            message += "\n⏩ Move forward " + step + " steps!\n";
+            movePlayer(step);
+            String newPosition=getCellLabel(currentPlayer.index);
+            message += "📍 New Position: " + newPosition + "\n";
+            message+=getLabelMessage(currentPlayer.index, currentPlayer.type);
+        } else if (currentPlayer.type.equals("backward")) {
+            int step = currentPlayer.moveStep;
+            message += "\n⏪ Move backward " + step + " steps!\n";
+            movePlayer(-step);
+            String newPosition=getCellLabel(currentPlayer.index);
+            message += "📍 New Position: " + newPosition + "\n";
+            message+=getLabelMessage(currentPlayer.index, currentPlayer.type);
+        } else {
+            updateScore(currentPlayer.type);
+        }
+        int changeScore = score - oldScore;
+        message+= getScoreChange(changeScore);
+        
+        JOptionPane.showMessageDialog(this, message, "🎲 Turn Result", JOptionPane.PLAIN_MESSAGE,iconVictory);
+
         showCurrentPlayer(currentPlayer);
-        updateScore(currentPlayer.type);
         if (currentPlayer.next == null) {
             endGame();
         }
