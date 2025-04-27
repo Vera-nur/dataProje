@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dataproject;
 
 import java.awt.*;
@@ -55,7 +51,7 @@ public class game extends JFrame {
         back.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
         back.setBounds(20, 720, 80, 40);
         back.addActionListener(e -> {
-            new frm_menu().setVisible(true);
+            new menu().setVisible(true);
             dispose();
         });
 
@@ -305,12 +301,12 @@ public class game extends JFrame {
                 new game(username, 2).setVisible(true);
             } else {
                 this.dispose();
-                new frm_menu().setVisible(true);
+                new menu().setVisible(true);
             }
         } else if (level == 2) {
             JOptionPane.showMessageDialog(this, " 🎉 Congratulations! \nYou've completed the game! \nYour Final Score: " + score, "\n Game Completed", JOptionPane.PLAIN_MESSAGE, iconVictory);
             this.dispose();
-            new frm_menu().setVisible(true);
+            new menu().setVisible(true);
         }
     }
 
