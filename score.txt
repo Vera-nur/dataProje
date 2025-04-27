@@ -28,3 +28,8 @@ vera, level 1, 45
 vera, level 2, 30
 vera, level 1, 5
 vera, level 2, 10
+vera, level 1, 0
+vera, level 1, 45
+vera, level 1, 5
+., level 1, 45
+., level 2, -5

@@ -1,9 +1,7 @@
 package dataproject;
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -32,8 +30,6 @@ public class frm_menu extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         button_scoreboard = new javax.swing.JButton();
         exit = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Start Game");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -93,7 +89,7 @@ public class frm_menu extends javax.swing.JFrame {
         if (username == null || username.trim().isEmpty()) 
             return;
         
-        new frm_game(username, 1).setVisible(true);
+        new game(username, 1).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
