@@ -24,6 +24,7 @@ public class game extends JFrame {
     private JButton back;
     private JButton dice;
     private JLabel labelUsername;
+    private JLabel labelInfo;
 
     public static ImageIcon iconPlayer;
     public static ImageIcon iconVictory;
@@ -50,20 +51,19 @@ public class game extends JFrame {
 
         // Butonlar ve etiketler
         back = new JButton("Back");
+        back.setBackground(new Color(228, 219, 162));
+        back.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
         back.setBounds(20, 720, 80, 40);
         back.addActionListener(e -> {
             new frm_menu().setVisible(true);
             dispose();
         });
 
-        dice = new JButton("🎲 Roll Dice");
+        dice = new JButton("Roll Dice");
         dice.setBackground(new Color(228, 219, 162));
+        dice.setForeground(Color.BLACK); // Bunu ekle
         dice.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-        dice.setBounds(950, 690, 175, 65);
-        dice.setFocusPainted(false);
-        dice.setContentAreaFilled(true);
-        dice.setBorderPainted(true);
-        dice.setOpaque(true);
+        dice.setBounds(950, 690, 165, 60);
         dice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,13 +72,28 @@ public class game extends JFrame {
         });
 
         labelUsername = new JLabel();
-        labelUsername.setBounds(970, 19, 200, 125);
+        labelUsername.setBounds(970, 5, 200, 80);
         labelUsername.setForeground(Color.BLACK);
         labelUsername.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        labelUsername.setOpaque(true);
+        labelUsername.setBackground(new Color(228, 219, 162));
+        labelUsername.setHorizontalAlignment(SwingConstants.LEFT); // YATAYDA ORTALAMA
+        labelUsername.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        
+        labelInfo = new JLabel();
+        labelInfo.setBounds(970, 95, 200, 50);
+        labelInfo.setForeground(Color.BLACK);
+        labelInfo.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+        labelInfo.setText("<html>Treasure +10 Points  <br>Trap -5 Points</html>");
+        labelInfo.setOpaque(true);
+        labelInfo.setHorizontalAlignment(SwingConstants.LEFT);
+        labelInfo.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        labelInfo.setBackground(new Color(228, 219, 162));
 
         jPanel1.add(back);
         jPanel1.add(dice);
         jPanel1.add(labelUsername);
+        jPanel1.add(labelInfo);
 
         setContentPane(jPanel1);
         setLayout(null);
