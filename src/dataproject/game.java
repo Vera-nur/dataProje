@@ -6,13 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import javax.swing.*;
+import dataproject.Button;
 
 public class game extends JFrame {
 
     static String username;
     static int level;
     Node head;
-    final int cellCount = 30;
+    final int cellCount = 32;
     Node currentPlayer;
     int score = 0;
 
@@ -36,18 +37,15 @@ public class game extends JFrame {
         new Point(540, 375), new Point(650, 375), new Point(760, 375), new Point(870, 375),
         new Point(30, 490), new Point(140, 490), new Point(250, 490), new Point(360, 490),
         new Point(470, 490), new Point(580, 490), new Point(690, 490), new Point(800, 490),
-        new Point(122, 605), new Point(232, 605), new Point(610, 605), new Point(720, 605)
+        new Point(12, 605), new Point(122, 605), new Point(232, 605), new Point(610, 605), new Point(720, 605),new Point(830, 605)
 
     };
 
     public game(String username, int level) {
-        // Arka plan paneli
         jPanel1 = new Background("assets/background.jpg");
         jPanel1.setLayout(null);
 
-        // Butonlar ve etiketler
-        back = new JButton("Back");
-        back.setBackground(new Color(228, 219, 162));
+        back = Button.createButtonDesign("Back", new Color(228, 219, 162), 20, 20);
         back.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
         back.setBounds(20, 720, 80, 40);
         back.addActionListener(e -> {
@@ -55,9 +53,8 @@ public class game extends JFrame {
             dispose();
         });
 
-        dice = new JButton("Roll Dice");
-        dice.setBackground(new Color(228, 219, 162));
-        dice.setForeground(Color.BLACK); // Bunu ekle
+        dice = Button.createButtonDesign("Roll Dice", new Color(228, 219, 162), 20, 20);
+        dice.setForeground(Color.BLACK);
         dice.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         dice.setBounds(950, 690, 165, 60);
         dice.addActionListener(new ActionListener() {
@@ -75,7 +72,7 @@ public class game extends JFrame {
         labelUsername.setBackground(new Color(228, 219, 162));
         labelUsername.setHorizontalAlignment(SwingConstants.LEFT); // YATAYDA ORTALAMA
         labelUsername.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
-        
+
         labelInfo = new JLabel();
         labelInfo.setBounds(970, 95, 200, 50);
         labelInfo.setForeground(Color.BLACK);
@@ -124,7 +121,7 @@ public class game extends JFrame {
         Random random = new Random();
         head = new Node(0, "empty");
         panel.add(head.button);
-        head.button.setBounds(positions[0].x, positions[0].y, 100, 100);
+        head.button.setBounds(positions[0].x, positions[0].y, 90, 90);
 
         Node current = head;
         for (int i = 1; i < cellCount; i++) {
@@ -187,7 +184,7 @@ public class game extends JFrame {
         int rolls = random.nextInt(6) + 1;
 
         String message = "🎲 Dice Roll: " + rolls + "\n";
-        int startIndex = currentPlayer.index;
+        int startIndex = currentPlayer.index+1;
         dontShowCurrentPlayer(currentPlayer);
 
         for (int i = 0; i < rolls; i++) {
@@ -197,7 +194,7 @@ public class game extends JFrame {
                 break;
             }
         }
-        String start = getCellLabel(startIndex);
+        String start = getCellLabel(startIndex-1);
         String end = getCellLabel(currentPlayer.index);
         message += "📍 Moved From: " + start + " to " + end + "\n";
         message += getLabelMessage(currentPlayer.index, currentPlayer.type);

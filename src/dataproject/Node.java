@@ -18,7 +18,6 @@ public class Node {
     public int moveStep = 0;
     private static ImageIcon iconTreasure;
     private static ImageIcon iconTrap;
-    private static ImageIcon iconEmpty;
     private static ImageIcon iconForward;
     private static ImageIcon iconBackward;
 
@@ -31,31 +30,44 @@ public class Node {
         this.type = type;
         this.next = null;
         this.prev = null;
-        this.button = new JButton(String.valueOf(index + 1));
-        this.button.setSize(120, 120);
+        this.button = new JButton(String.valueOf(index + 1)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                if (getModel().isArmed()) {
+                    g2.setColor(getBackground().darker());
+                } else {
+                    g2.setColor(getBackground());
+                }
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+                g2.dispose();
+
+                super.paintComponent(g);
+            }
+        };
         button.setFocusPainted(false);
         button.setBorderPainted(false);
-        button.setContentAreaFilled(true);
+        button.setContentAreaFilled(false);
+        button.setOpaque(false);
         updateButton();
     }
 
     private static void loadIcons() {
-        if (iconTreasure == null || iconTrap == null || iconForward == null || iconBackward == null || iconEmpty == null) {
+        if (iconTreasure == null || iconTrap == null || iconForward == null || iconBackward == null) {
             iconTreasure = new ImageIcon("assets/treasure.png");
             iconTrap = new ImageIcon("assets/trap.png");
             iconBackward = new ImageIcon("assets/backward.png");
             iconForward = new ImageIcon("assets/forward.png");
-            iconEmpty = new ImageIcon("assets/empty.png");
             Image img1 = iconTreasure.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             iconTreasure = new ImageIcon(img1);
             Image img2 = iconTrap.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             iconTrap = new ImageIcon(img2);
-            Image img3 = iconBackward.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+            Image img3 = iconBackward.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
             iconBackward = new ImageIcon(img3);
-            Image img4 = iconForward.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+            Image img4 = iconForward.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
             iconForward = new ImageIcon(img4);
-            Image img5 = iconEmpty.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-            iconEmpty = new ImageIcon(img5);
         }
     }
 
@@ -66,10 +78,15 @@ public class Node {
             label = "START";
             button.setText(label);
             button.setIcon(null);
+            button.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+            button.setBackground(new Color(135, 79, 29));
             return;
-        } else if (index == 31) {
+        }else if (index == 31) {
             label = "FINISH";
             button.setText(label);
+            button.setIcon(null);
+            button.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+            button.setBackground(new Color(135, 79, 29));
             return;
         } else {
             label = String.valueOf(index);
@@ -92,18 +109,18 @@ public class Node {
             case "empty":
                 button.setBackground(new Color(73, 168, 188));
                 button.setText(label);
-                button.setIcon(null);//icon ekle
-                button.setFont(new Font("Comic Sans MS", Font.BOLD, 20)); // daha büyük ve eğlenceli
+                button.setIcon(null);
+                button.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
                 break;
             case "forward":
                 if (moveStep == 0) {
                     moveStep = random.nextInt(6) + 1;
                 }
                 button.setBackground(new Color(255, 239, 209));
-                button.setText("<html><div style='text-align:center; font-family:'Comic Sans MS'; font-size:16px; font-weight:bold;'>"
-                        + moveStep + " ileri<br><b></b></div></html>");
+                button.setText(moveStep + " ileri");
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
-                button.setVerticalTextPosition(SwingConstants.TOP);
+                button.setVerticalTextPosition(SwingConstants.BOTTOM);
+                button.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
                 button.setIcon(iconForward);
                 break;
             case "backward":
@@ -111,11 +128,11 @@ public class Node {
                     moveStep = random.nextInt(6) + 1;
                 }
                 button.setBackground(new Color(255, 239, 209));
-                button.setText("<html><div style='text-align:center; font-family:'Comic Sans MS'; font-size:16px; font-weight:bold;'>"
-                        + moveStep + " geri<br><b></b></div></html>");
+                button.setText(moveStep + " geri");
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
-                button.setVerticalTextPosition(SwingConstants.TOP);
-                button.setIcon(iconBackward);//ikon ekle
+                button.setVerticalTextPosition(SwingConstants.BOTTOM);
+                button.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+                button.setIcon(iconBackward);
                 break;
         }
     }
