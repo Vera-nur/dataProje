@@ -39,58 +39,17 @@ public class menu extends JFrame {
         
         //Game ekranına geçiş
         startButton.addActionListener(e -> {
-            String username = JOptionPane.showInputDialog(this, "Sign in with a username to play:");
-            if (username == null || username.trim().isEmpty()) {
-                return;
-            }
-
-            new game(username, 1).setVisible(true);
+            optionPaneScreen ops=new optionPaneScreen(this,0);
+            ops.setVisible(true);
             this.dispose();
         });
         
         //Score ekranına geçiş
         scoresButton.addActionListener(e -> {
-            String username = JOptionPane.showInputDialog(this, "To check the scores, enter your username first:");
-            if (username == null || username.trim().isEmpty()) {
-                return;
-            }
-
-            BinarySearchTree bst = new BinarySearchTree();
-            boolean userFound = false;
-
-            try (BufferedReader br = new BufferedReader(new FileReader("score.txt"))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    String[] parts = line.split(", ");
-                    if (parts.length >= 3 && parts[0].equals(username)) {
-                        userFound = true;
-                        try {
-                            int level = Integer.parseInt(parts[1].replaceAll("\\D+", ""));
-                            int score = Integer.parseInt(parts[2]);
-                            bst.insert(username, level, score);        // her bir oyunu node olarak ekliyorum ağaca
-                        } catch (NumberFormatException ex) {
-                            System.err.println("Error parsing score data for user: " + username);
-                        }
-                    }
-                }
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this,
-                        "Error reading the score file: " + ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            if (!userFound) {
-                JOptionPane.showMessageDialog(this,
-                        "No score found for user: " + username,
-                        "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            new score(username, bst.getBestScore(), bst.getWorstScore(), bst.getAllScores()).setVisible(true);
+            optionPaneScreen ops=new optionPaneScreen(this, 1);
+            ops.setVisible(true);
             this.dispose();
+            
         });
         
 
