@@ -37,7 +37,8 @@ public class menu extends JFrame {
 
         JButton exitButton = createButton("EXIT", 50, 580, 120, 50, new Color(255, 102, 0), Color.RED, buttonFont);
         background.add(exitButton);
-
+        
+        //Game ekranına geçiş
         startButton.addActionListener(e -> {
             String username = JOptionPane.showInputDialog(this, "Sign in with a username to play:");
             if (username == null || username.trim().isEmpty()) {
@@ -47,7 +48,8 @@ public class menu extends JFrame {
             new game(username, 1).setVisible(true);
             this.dispose();
         });
-
+        
+        //Score ekranına geçiş
         scoresButton.addActionListener(e -> {
             String username = JOptionPane.showInputDialog(this, "To check the scores, enter your username first:");
             if (username == null || username.trim().isEmpty()) {
@@ -66,7 +68,7 @@ public class menu extends JFrame {
                         try {
                             int level = Integer.parseInt(parts[1].replaceAll("\\D+", ""));
                             int score = Integer.parseInt(parts[2]);
-                            bst.insert(username, level, score);
+                            bst.insert(username, level, score);        // her bir oyunu node olarak ekliyorum ağaca
                         } catch (NumberFormatException ex) {
                             System.err.println("Error parsing score data for user: " + username);
                         }
@@ -91,6 +93,7 @@ public class menu extends JFrame {
             new score(username, bst.getBestScore(), bst.getWorstScore(), bst.getAllScores()).setVisible(true);
             this.dispose();
         });
+        
 
         exitButton.addActionListener(e -> System.exit(0));
 

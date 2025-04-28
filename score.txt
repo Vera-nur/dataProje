@@ -33,3 +33,5 @@ vera, level 1, 45
 vera, level 1, 5
 ., level 1, 45
 ., level 2, -5
+osman, level 1, 20
+selamlarolsun, level 1, 0
