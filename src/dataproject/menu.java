@@ -25,13 +25,16 @@ public class menu extends JFrame {
 
         Font buttonFont = new Font("Comic Sans MS", Font.BOLD, 24);
 
-        JButton startButton = createButton("START", 280, 80, 200, 60, new Color(255, 204, 0), Color.RED, buttonFont);
+        JButton startButton =Button.createButtonDesign("START", new Color(255, 204, 0), 30, 30);
+        createButton(startButton, 280, 80, 200, 60, Color.RED, buttonFont);
         background.add(startButton);
 
-        JButton scoresButton = createButton("SCORES", 280, 580, 200, 60, new Color(255, 204, 0), Color.RED, buttonFont);
+        JButton scoresButton = Button.createButtonDesign("SCORES", new Color(255, 204, 0), 30, 30);
+        createButton(scoresButton, 280, 580, 200, 60, Color.RED, buttonFont);
         background.add(scoresButton);
 
-        JButton exitButton = createButton("EXIT", 50, 580, 120, 50, new Color(255, 102, 0), Color.RED, buttonFont);
+        JButton exitButton = Button.createButtonDesign("EXIT", new Color(255, 102, 0), 30, 30);
+        createButton(exitButton, 50, 580, 120, 50, Color.RED, buttonFont);
         background.add(exitButton);
         
         //Game ekranına geçiş
@@ -96,15 +99,10 @@ public class menu extends JFrame {
         setContentPane(background);
     }
 
-    private JButton createButton(String text, int x, int y, int width, int height, Color bgColor, Color fgColor, Font font) {
-        JButton button = new JButton(text);
+    private void createButton(JButton button, int x, int y, int width, int height, Color fgColor, Font font) {
+        
         button.setBounds(x, y, width, height);
         button.setFont(font);
-        button.setBackground(bgColor);
         button.setForeground(fgColor);
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
-        button.setOpaque(true);
-        return button;
     }
 }

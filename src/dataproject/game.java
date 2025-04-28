@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import javax.swing.*;
-import dataproject.Button;
 
 public class game extends JFrame {
 

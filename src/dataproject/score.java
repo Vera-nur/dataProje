@@ -54,7 +54,9 @@ public class score extends JFrame {
         all_scores_label.setVerticalAlignment(SwingConstants.TOP);
         background.add(all_scores_label);
 
-        JButton backButton = createButton("BACK", 200, 600, 150, 50, new Color(255, 204, 0), Color.RED, new Font("Comic Sans MS", Font.BOLD, 24));
+        
+        JButton backButton = Button.createButtonDesign("BACK", new Color(255, 204, 0), 30, 30);
+        createButton(backButton, 200, 600, 150, 50, Color.RED, new Font("Comic Sans MS", Font.BOLD, 24));
         background.add(backButton);
 
         username_label.setText(username);
@@ -82,15 +84,10 @@ public class score extends JFrame {
         setContentPane(background);
     }
 
-    private JButton createButton(String text, int x, int y, int width, int height, Color bgColor, Color fgColor, Font font) {
-        JButton button = new JButton(text);
+    private void createButton(JButton button, int x, int y, int width, int height, Color fgColor, Font font) {
+        
         button.setBounds(x, y, width, height);
         button.setFont(font);
-        button.setBackground(bgColor);
         button.setForeground(fgColor);
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
-        button.setOpaque(true);
-        return button;
     }
 }
