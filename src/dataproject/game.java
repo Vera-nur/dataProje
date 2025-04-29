@@ -2,8 +2,12 @@ package dataproject;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import javax.swing.*;
 
@@ -21,6 +25,7 @@ public class game extends JFrame {
     private JButton dice;
     private JLabel labelUsername;
     private JLabel labelInfo;
+    private JLabel labelTop;
 
     public static ImageIcon iconPlayer;
     public static ImageIcon iconVictory;
@@ -36,7 +41,7 @@ public class game extends JFrame {
         new Point(540, 375), new Point(650, 375), new Point(760, 375), new Point(870, 375),
         new Point(30, 490), new Point(140, 490), new Point(250, 490), new Point(360, 490),
         new Point(470, 490), new Point(580, 490), new Point(690, 490), new Point(800, 490),
-        new Point(12, 605), new Point(122, 605), new Point(232, 605), new Point(610, 605), new Point(720, 605),new Point(830, 605)
+        new Point(12, 605), new Point(122, 605), new Point(232, 605), new Point(610, 605), new Point(720, 605), new Point(830, 605)
 
     };
 
@@ -69,7 +74,7 @@ public class game extends JFrame {
         labelUsername.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
         labelUsername.setOpaque(true);
         labelUsername.setBackground(new Color(228, 219, 162));
-        labelUsername.setHorizontalAlignment(SwingConstants.LEFT); // YATAYDA ORTALAMA
+        labelUsername.setHorizontalAlignment(SwingConstants.LEFT);
         labelUsername.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
 
         labelInfo = new JLabel();
@@ -82,10 +87,41 @@ public class game extends JFrame {
         labelInfo.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
         labelInfo.setBackground(new Color(228, 219, 162));
 
+        
+        //----------------------// allscoreArray list diye bir fonksiyon yaptım level alıyor level 1 ise sadece level birdekileri küçükten büüyüğe doğru listeye ekliyor tek problem aynı kullanıcının birden fazla scoruda kaydediliyor
+        ArrayList<TreeNode> allscores = allscoreArrayList(level);
+        ArrayList<TreeNode> top3;
+        if (allscores.size() >= 3) {
+            top3 = new ArrayList<>(allscores.subList(allscores.size() - 3, allscores.size())); // SubList'i ArrayList'e çevir
+            Collections.reverse(top3);
+        } else {
+            top3 = new ArrayList<>(allscores);
+            Collections.reverse(top3);
+        }
+
+        StringBuilder top3Text = new StringBuilder("<html><b>TOP 3 PLAYERS</b><br>");
+        for (int i = 0; i < top3.size(); i++) {
+            TreeNode player = top3.get(i);
+            top3Text.append(String.format("%d. %s: %d<br>", i + 1, player.username, player.score));
+        }
+        top3Text.append("</html>");
+
+        labelTop = new JLabel();
+        labelTop.setText(top3Text.toString());
+        labelTop.setBounds(970, 500, 200, 150);
+        labelTop.setForeground(Color.BLACK);
+        labelTop.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        labelTop.setOpaque(true);
+        labelTop.setBackground(new Color(228, 219, 162));
+        labelTop.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        labelTop.setHorizontalAlignment(SwingConstants.LEFT);
+        //--------------------------
+
         jPanel1.add(back);
         jPanel1.add(dice);
         jPanel1.add(labelUsername);
         jPanel1.add(labelInfo);
+        jPanel1.add(labelTop);
 
         setContentPane(jPanel1);
         setLayout(null);
@@ -183,7 +219,7 @@ public class game extends JFrame {
         int rolls = random.nextInt(6) + 1;
 
         String message = "🎲 Dice Roll: " + rolls + "\n";
-        int startIndex = currentPlayer.index+1;
+        int startIndex = currentPlayer.index + 1;
         dontShowCurrentPlayer(currentPlayer);
 
         for (int i = 0; i < rolls; i++) {
@@ -193,7 +229,7 @@ public class game extends JFrame {
                 break;
             }
         }
-        String start = getCellLabel(startIndex-1);
+        String start = getCellLabel(startIndex - 1);
         String end = getCellLabel(currentPlayer.index);
         message += "📍 Moved From: " + start + " to " + end + "\n";
         message += getLabelMessage(currentPlayer.index, currentPlayer.type);
@@ -331,5 +367,37 @@ public class game extends JFrame {
         } else {
             return "\n➖ No points gained or lost.";
         }
+    }
+
+    public static ArrayList<TreeNode> allscoreArrayList(int level) {
+        BinarySearchTree bst = new BinarySearchTree();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("score.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.trim().split(",\\s*");
+                if (parts.length == 3) {
+                    try {
+                        String levelPart = parts[1].trim();
+                        if (levelPart.startsWith("level ")) {
+                            int currentLevel = Integer.parseInt(levelPart.substring(6).trim());
+                            if (currentLevel == level) {
+                                String username = parts[0].trim();
+                                int score = Integer.parseInt(parts[2].trim());
+                                bst.insert(username, currentLevel, score);
+                            }
+                        }
+                    } catch (NumberFormatException ex) {
+                        System.err.println("Error parsing score data for line: " + line);
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error reading the score file: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        return bst.getAllScores();
     }
 }

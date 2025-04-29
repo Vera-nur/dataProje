@@ -33,7 +33,7 @@ public class score extends JFrame {
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         centerPanel.setOpaque(false);
-        centerPanel.setBounds(0, 250, 538, 40);
+        centerPanel.setBounds(0, 250, 538, 60);
 
         centerPanel.add(username_label);
         background.add(centerPanel);

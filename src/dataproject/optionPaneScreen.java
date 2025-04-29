@@ -13,6 +13,7 @@ import dataproject.score;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 
 public class optionPaneScreen extends JFrame {
 
@@ -57,10 +58,9 @@ public class optionPaneScreen extends JFrame {
                 String username = usernameField.getText();
                 if (username == null || username.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Lütfen bir kullanıcı adı girin!");
-                } else {
-                    new game(username, 1).setVisible(true);
-                    dispose();
-                }
+                } 
+                new game(username, 1).setVisible(true);
+                this.dispose();
             });
 
             cancelButton.addActionListener(e -> {
@@ -154,5 +154,4 @@ public class optionPaneScreen extends JFrame {
         button.setText("");
         return button;
     }
-
 }
