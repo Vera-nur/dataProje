@@ -58,9 +58,11 @@ public class optionPaneScreen extends JFrame {
                 String username = usernameField.getText();
                 if (username == null || username.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Lütfen bir kullanıcı adı girin!");
-                } 
-                new game(username, 1).setVisible(true);
-                this.dispose();
+                } else {
+                    new game(username, 1).setVisible(true);
+                    this.dispose();
+                }
+
             });
 
             cancelButton.addActionListener(e -> {
