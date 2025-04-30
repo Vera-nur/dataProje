@@ -50,7 +50,7 @@ public class score extends JFrame {
 
         all_scores_label = new JLabel();
         all_scores_label.setFont(labelFont);
-        all_scores_label.setBounds(165, 390, 248, 200);
+        all_scores_label.setBounds(165, 390, 248, 250);
         all_scores_label.setVerticalAlignment(SwingConstants.TOP);
         background.add(all_scores_label);
 

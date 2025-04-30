@@ -69,16 +69,16 @@ public class game extends JFrame {
         });
 
         labelUsername = new JLabel();
-        labelUsername.setBounds(970, 5, 200, 80);
+        labelUsername.setBounds(970, 5, 220, 80);
         labelUsername.setForeground(Color.BLACK);
-        labelUsername.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        labelUsername.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
         labelUsername.setOpaque(true);
         labelUsername.setBackground(new Color(228, 219, 162));
         labelUsername.setHorizontalAlignment(SwingConstants.LEFT);
         labelUsername.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
 
         labelInfo = new JLabel();
-        labelInfo.setBounds(970, 95, 200, 50);
+        labelInfo.setBounds(970, 95, 220, 50);
         labelInfo.setForeground(Color.BLACK);
         labelInfo.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
         labelInfo.setText("<html>Treasure +10 Points  <br>Trap -5 Points</html>");
@@ -108,7 +108,7 @@ public class game extends JFrame {
 
         labelTop = new JLabel();
         labelTop.setText(top3Text.toString());
-        labelTop.setBounds(970, 500, 200, 150);
+        labelTop.setBounds(970, 500, 220, 150);
         labelTop.setForeground(Color.BLACK);
         labelTop.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
         labelTop.setOpaque(true);

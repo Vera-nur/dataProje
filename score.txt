@@ -56,3 +56,11 @@ ebu, level 1, 10
 vera, level 1, 35
 vera, level 2, 10
 vera, level 1, 0
+player1, level 1, 60
+player1, level 2, 95
+melike, level 1, 65
+melike, level 2, -15
+melowiski, level 1, 25
+melowiski, level 2, 25
+emyazici, level 1, 40
+emyazici, level 2, 40
