@@ -93,11 +93,11 @@ public class optionPaneScreen extends JFrame {
             panel.add(usernameField);
 
             JButton cancelButton = creaButton(106, 279, 129, 43);
-            JButton oktButton = creaButton(267, 279, 129, 43);
+            JButton okButton = creaButton(267, 279, 129, 43);
             panel.add(cancelButton);
-            panel.add(oktButton);
+            panel.add(okButton);
 
-            oktButton.addActionListener(e -> {
+            okButton.addActionListener(e -> {
                 String username = usernameField.getText();
 
                 BinarySearchTree bst = new BinarySearchTree();

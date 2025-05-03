@@ -2,13 +2,8 @@ package dataproject;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 
 public class game extends JFrame {
@@ -87,12 +82,10 @@ public class game extends JFrame {
         labelInfo.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
         labelInfo.setBackground(new Color(228, 219, 162));
 
-        
-        //----------------------// allscoreArray list diye bir fonksiyon yaptım level alıyor level 1 ise sadece level birdekileri küçükten büüyüğe doğru listeye ekliyor tek problem aynı kullanıcının birden fazla scoruda kaydediliyor
         ArrayList<TreeNode> allscores = allscoreArrayList(level);
         ArrayList<TreeNode> top3;
         if (allscores.size() >= 3) {
-            top3 = new ArrayList<>(allscores.subList(allscores.size() - 3, allscores.size())); // SubList'i ArrayList'e çevir
+            top3 = new ArrayList<>(allscores.subList(allscores.size() - 3, allscores.size()));
             Collections.reverse(top3);
         } else {
             top3 = new ArrayList<>(allscores);
@@ -115,7 +108,6 @@ public class game extends JFrame {
         labelTop.setBackground(new Color(228, 219, 162));
         labelTop.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
         labelTop.setHorizontalAlignment(SwingConstants.LEFT);
-        //--------------------------
 
         jPanel1.add(back);
         jPanel1.add(dice);
@@ -207,13 +199,7 @@ public class game extends JFrame {
             }
         }
     }
-
-    private void setPosition(JButton btn, int i) {
-        int x = 60 + (i % 10) * 90;
-        int y = 60 + (i / 10) * 90;
-        btn.setLocation(x, y);
-    }
-
+    
     private void rollDice() {
         Random random = new Random();
         int rolls = random.nextInt(6) + 1;

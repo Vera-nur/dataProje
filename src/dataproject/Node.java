@@ -64,9 +64,9 @@ public class Node {
             iconTreasure = new ImageIcon(img1);
             Image img2 = iconTrap.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             iconTrap = new ImageIcon(img2);
-            Image img3 = iconBackward.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+            Image img3 = iconBackward.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             iconBackward = new ImageIcon(img3);
-            Image img4 = iconForward.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+            Image img4 = iconForward.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             iconForward = new ImageIcon(img4);
         }
     }
@@ -78,15 +78,23 @@ public class Node {
             label = "START";
             button.setText(label);
             button.setIcon(null);
-            button.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+            button.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
             button.setBackground(new Color(135, 79, 29));
+            button.setMargin(new Insets(0, 0, 0, 0));
+            button.setHorizontalAlignment(SwingConstants.CENTER);
+            button.setVerticalAlignment(SwingConstants.CENTER);
+
             return;
-        }else if (index == 31) {
+        } else if (index == 31) {
             label = "FINISH";
             button.setText(label);
             button.setIcon(null);
-            button.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+            button.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
             button.setBackground(new Color(135, 79, 29));
+            button.setMargin(new Insets(0, 0, 0, 0));
+            button.setHorizontalAlignment(SwingConstants.CENTER);
+            button.setVerticalAlignment(SwingConstants.CENTER);
+
             return;
         } else {
             label = String.valueOf(index);
@@ -114,25 +122,29 @@ public class Node {
                 break;
             case "forward":
                 if (moveStep == 0) {
-                    moveStep = random.nextInt(6) + 1;
+                    moveStep = random.nextInt(5) + 1;
                 }
                 button.setBackground(new Color(255, 239, 209));
                 button.setText(moveStep + " ileri");
-                button.setHorizontalTextPosition(SwingConstants.CENTER);
-                button.setVerticalTextPosition(SwingConstants.BOTTOM);
                 button.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
                 button.setIcon(iconForward);
+                button.setHorizontalTextPosition(SwingConstants.CENTER);
+                button.setVerticalTextPosition(SwingConstants.BOTTOM);
+                button.setIconTextGap(10);
+                button.setMargin(new Insets(4, 4, 12, 4));
                 break;
             case "backward":
                 if (moveStep == 0) {
-                    moveStep = random.nextInt(6) + 1;
+                    moveStep = random.nextInt(5) + 1;
                 }
                 button.setBackground(new Color(255, 239, 209));
+                button.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
                 button.setText(moveStep + " geri");
+                button.setIcon(iconBackward);
                 button.setHorizontalTextPosition(SwingConstants.CENTER);
                 button.setVerticalTextPosition(SwingConstants.BOTTOM);
-                button.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-                button.setIcon(iconBackward);
+                button.setIconTextGap(10);
+                button.setMargin(new Insets(4, 4, 12, 4));
                 break;
         }
     }
